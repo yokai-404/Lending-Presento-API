@@ -1,58 +1,781 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Lending Presento API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Backend-сервис для лендинг-презентации разработчика с REST API, AI-интеграцией и системой обработки обращений.
 
-## About Laravel
+Проект выполнен в рамках тестового задания на позицию Junior Backend Developer.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Основные возможности
+REST API для формы обратной связи (POST /api/contact)
+Валидация входящих данных
+AI-анализ текста обращения
+Классификация типа обращения
+Анализ тональности сообщения
+Автоматическая генерация ответа пользователю
+Graceful Fallback при недоступности AI
+Отправка email владельцу сайта
+Отправка копии письма пользователю
+Глобальная обработка ошибок
+Rate Limiting для защиты от спама
+Логирование всех API-запросов
+Swagger/OpenAPI документация
+Health Check API
+Metrics API
+Unit и Feature тесты
+Небольшой frontend для демонстрации работы API
+Стек технологий
+Backend
+PHP 8.4
+Laravel 13
+MySQL
+Composer
+AI
+OpenAI API
+GPT-4.1 Mini
+FallbackAIService (режим разработки и fallback)
+Документация
+Swagger / OpenAPI (L5 Swagger)
+Postman Collection
+Email
+Laravel Mail
+SMTP
+Качество кода
+Laravel Pint
+Larastan
+PHPUnit
+Архитектура проекта
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Проект построен по принципу слоистой архитектуры (Layered Architecture).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+HTTP Request
+      │
+      ▼
+Controller
+      │
+      ▼
+DTO
+      │
+      ▼
+Service
+      │
+      ▼
+AI Service
+      │
+      ▼
+Repository
+      │
+      ▼
+Model
+      │
+      ▼
+Database
 
-## Learning Laravel
+Используемые принципы:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Separation of Concerns
+Dependency Injection
+Repository Pattern
+Service Layer Pattern
+DTO Pattern
+SOLID
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Такое разделение делает код проще для сопровождения, тестирования и дальнейшего расширения функциональности.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Структура проекта
+app/
 
-## Agentic Development
+├── Contracts/
+│   ├── AIServiceInterface.php
+│   └── ContactRepositoryInterface.php
+│
+├── DTO/
+│   └── ContactDTO.php
+│
+├── Http/
+│   ├── Controllers/
+│   ├── Middleware/
+│   └── Requests/
+│
+├── Mail/
+│
+├── Models/
+│
+├── Repositories/
+│
+├── Services/
+│   ├── AI/
+│   └── Mail/
+│
+├── Exceptions/
+│
+tests/
+├── Feature/
+└── Unit/
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+routes/
+config/
+database/
+storage/
+Установка и запуск проекта
+Требования
 
-```bash
-composer require laravel/boost --dev
+Перед запуском необходимо установить:
 
-php artisan boost:install
-```
+PHP 8.4+
+Composer 2+
+MySQL 8+
+Node.js 22+
+npm 10+
+Клонирование репозитория
+git clone https://github.com/yokai-404/Lending-Presento-API.git
+cd Lending-Presento-API
+Установка зависимостей
+composer install
+npm install
+Настройка окружения
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Создайте файл окружения:
 
-## Contributing
+cp .env.example .env
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Сгенерируйте ключ приложения:
 
-## Code of Conduct
+php artisan key:generate
+Настройка базы данных
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Создайте базу данных MySQL и укажите параметры подключения в файле .env.
 
-## Security Vulnerabilities
+Пример:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=lending_presento
+DB_USERNAME=root
+DB_PASSWORD=
 
-## License
+После настройки выполните миграции:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+php artisan migrate
+Настройка OpenAI
+
+Для использования AI необходимо указать API-ключ.
+
+AI_DRIVER=openai
+
+OPENAI_API_KEY=your_api_key
+
+Во время разработки можно использовать встроенную реализацию Fallback AI:
+
+AI_DRIVER=fallback
+
+В этом режиме проект полностью работоспособен и не требует подключения к OpenAI API.
+
+Настройка SMTP
+
+Для отправки писем необходимо указать параметры SMTP.
+
+Пример:
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=example@gmail.com
+MAIL_PASSWORD=your_password
+MAIL_ENCRYPTION=tls
+
+MAIL_FROM_ADDRESS=example@gmail.com
+MAIL_FROM_NAME="Lending Presento"
+
+MAIL_ADMIN_ADDRESS=admin@example.com
+Запуск проекта
+
+Запустить сервер Laravel:
+
+php artisan serve
+
+По умолчанию приложение будет доступно по адресу:
+
+http://127.0.0.1:8000
+Документация API
+
+Swagger:
+
+http://127.0.0.1:8000/docs
+Postman
+
+В репозитории находится готовая коллекция Postman для тестирования всех API-эндпоинтов проекта.
+
+Запуск тестов
+php artisan test
+Проверка форматирования кода
+vendor/bin/pint
+Статический анализ
+vendor/bin/phpstan analyse
+
+Реализация API
+
+Все API работают с JSON и соответствуют REST-принципам.
+
+Базовый URL:
+
+http://127.0.0.1:8000
+POST /api/contact
+
+Создание нового обращения через форму обратной связи.
+
+Последовательность обработки запроса
+Валидация входящих данных.
+Создание DTO объекта.
+AI-анализ комментария пользователя.
+Классификация обращения.
+Генерация автоматического ответа.
+Сохранение данных в базе данных.
+Отправка уведомления владельцу сайта.
+Отправка подтверждения пользователю.
+Возврат JSON-ответа клиенту.
+Пример запроса
+{
+    "name": "Иван Иванов",
+    "email": "ivan@example.com",
+    "phone": "+79991234567",
+    "message": "Здравствуйте! Хотел бы заказать разработку корпоративного сайта."
+}
+Успешный ответ (201 Created)
+{
+    "success": true,
+    "message": "Ваше обращение успешно отправлено.",
+    "data": {
+        "uuid": "019f9211-cec0-73f3-b1ff-d3d47f57a13e",
+        "created_at": "2026-07-24T03:01:08.000000Z"
+    }
+}
+Ошибка валидации (422 Unprocessable Entity)
+{
+    "message": "Введите корректный email.",
+    "errors": {
+        "email": [
+            "Введите корректный email."
+        ]
+    }
+}
+Возможные HTTP-статусы
+Код	Описание
+201	Обращение успешно создано
+422	Ошибка валидации
+429	Превышен лимит запросов
+500	Внутренняя ошибка сервера
+GET /api/health
+
+Проверка состояния приложения.
+
+Возвращает информацию о:
+
+доступности базы данных;
+почтовом драйвере;
+AI-провайдере;
+версии PHP;
+версии Laravel;
+текущем окружении приложения.
+
+Пример ответа:
+
+{
+    "success": true,
+    "status": "ok",
+    "service": {
+        "name": "Lending Presento API",
+        "version": "1.0.0"
+    },
+    "services": {
+        "database": {
+            "status": "ok",
+            "driver": "mysql"
+        },
+        "mail": {
+            "status": "ok",
+            "driver": "smtp"
+        },
+        "ai": {
+            "status": "ok",
+            "driver": "fake",
+            "model": "gpt-4.1-mini"
+        }
+    }
+}
+GET /api/metrics
+
+Возвращает агрегированную статистику обращений.
+
+Содержит:
+
+общее количество обращений;
+количество обращений за текущий день;
+распределение по категориям;
+анализ тональности сообщений.
+
+Пример ответа:
+
+{
+    "success": true,
+    "data": {
+        "total_contacts": 21,
+        "today_contacts": 1,
+        "positive": 1,
+        "neutral": 6,
+        "negative": 3,
+        "categories": {
+            "sales": 1,
+            "support": 3,
+            "other": 17
+        }
+    }
+}
+Валидация
+
+Перед выполнением бизнес-логики все входящие данные проходят серверную валидацию.
+
+Поле	Правила
+name	required, string, min:2, max:100
+email	required, email, max:255
+phone	required, регулярное выражение, 10–15 символов
+message	required, min:10, max:2000
+Обработка ошибок
+
+Проект использует централизованную обработку исключений.
+
+Для API все ошибки возвращаются в формате JSON.
+
+Дополнительно реализованы:
+
+глобальный обработчик исключений;
+пользовательское исключение ContactProcessingException;
+корректные HTTP-статусы;
+журналирование ошибок.
+
+AI-интеграция
+
+Одним из обязательных требований тестового задания являлась интеграция AI в backend-приложение.
+
+В проекте AI используется для автоматической обработки сообщений, поступающих через форму обратной связи.
+
+Используемые инструменты
+OpenAI API
+
+Модель:
+
+gpt-4.1-mini
+
+Интеграция реализована через официальный пакет:
+
+openai-php/laravel
+Выполняемые задачи
+
+После успешной валидации обращения сообщение пользователя передается AI для анализа.
+
+В рамках одного запроса AI выполняет сразу несколько задач:
+
+анализ тональности сообщения (Sentiment Analysis);
+классификацию обращения;
+генерацию автоматического ответа пользователю.
+
+Возвращаемый формат:
+
+{
+    "sentiment": "positive",
+    "category": "sales",
+    "reply": "Спасибо за обращение! Мы свяжемся с Вами в ближайшее время."
+}
+
+Полученные данные сохраняются в базе данных и используются при отправке писем.
+
+Реализованный Prompt
+
+Для повышения стабильности результата используется системный Prompt, ограничивающий формат ответа модели.
+
+Основные требования к модели:
+
+вернуть только JSON;
+не использовать Markdown;
+не добавлять пояснений;
+определить тональность сообщения;
+определить категорию обращения;
+сформировать краткий профессиональный ответ пользователю.
+
+Использование строгого JSON значительно упрощает обработку ответа на стороне backend и снижает вероятность ошибок при парсинге.
+
+Graceful Fallback
+
+Для обеспечения отказоустойчивости реализован механизм Graceful Fallback.
+
+Если OpenAI API недоступен (ошибка сети, превышение лимита, неверный API-ключ или любая другая ошибка), приложение продолжает работать без прерывания пользовательского сценария.
+
+В этом случае автоматически используется резервный ответ:
+
+{
+    "sentiment": "neutral",
+    "category": "other",
+    "ai_reply": "Спасибо за обращение! Мы свяжемся с вами в ближайшее время."
+}
+
+Благодаря этому пользователь всегда получает корректный ответ, а отправка письма и сохранение обращения продолжаются без ошибок.
+
+Режим разработки
+
+Для разработки и тестирования реализован отдельный сервис FakeAIService.
+
+Он имитирует работу AI без обращения к внешнему API.
+
+Классификация выполняется по ключевым словам:
+
+заказать, купить, стоимость → sales;
+ошибка, проблема, не работает → support;
+сотрудничество, партнер → partnership;
+остальные обращения → other.
+
+Такой подход позволяет:
+
+разрабатывать проект без затрат на OpenAI API;
+выполнять автоматические тесты без внешних зависимостей;
+гарантировать стабильную работу приложения даже без подключения к AI.
+
+Переключение между сервисами осуществляется через переменную окружения:
+
+AI_DRIVER=fake
+
+или
+
+AI_DRIVER=openai
+
+Что было реализовано с помощью AI
+
+Во время разработки проекта AI использовался не только как часть функциональности приложения, но и как инструмент повышения качества разработки.
+
+Генерация кода
+
+С помощью AI были подготовлены первоначальные версии следующих компонентов:
+
+базовая структура сервисов;
+реализация AI-сервиса;
+шаблон системного Prompt;
+отдельные классы DTO;
+первоначальные версии тестов;
+базовая документация Swagger.
+Что было доработано вручную
+
+Все сгенерированные фрагменты были проверены и адаптированы под архитектуру проекта.
+
+Вручную были выполнены следующие доработки:
+
+проектирование слоистой архитектуры приложения;
+разделение ответственности между Controller, Service и Repository;
+реализация Dependency Injection через интерфейсы;
+настройка глобальной обработки исключений;
+реализация Graceful Fallback;
+интеграция AI с бизнес-логикой приложения;
+реализация отправки email;
+настройка Rate Limiting;
+логирование API-запросов;
+написание и доработка Unit и Feature тестов;
+настройка Swagger/OpenAPI;
+создание frontend-страницы для демонстрации работы API.
+Используемые промпты
+
+Во время разработки использовались AI-промпты для решения следующих задач:
+
+проектирование архитектуры приложения;
+генерация отдельных классов Laravel;
+написание Unit и Feature тестов;
+улучшение структуры кода;
+генерация документации;
+проектирование AI Prompt для OpenAI API.
+
+Хранение данных, логирование и безопасность
+Хранение данных
+
+В качестве основного хранилища используется база данных MySQL.
+
+В таблице обращений сохраняются:
+
+имя пользователя;
+email;
+телефон;
+текст сообщения;
+результат AI-анализа;
+категория обращения;
+автоматически сгенерированный AI-ответ;
+статус обработки;
+дата и время создания записи.
+
+Использование базы данных позволяет выполнять поиск, фильтрацию, построение статистики и дальнейшее расширение функциональности проекта.
+
+Логирование
+
+Для логирования используется встроенная система Laravel Logging.
+
+Все входящие API-запросы проходят через middleware LogApiRequests.
+
+Логируются:
+
+HTTP-метод;
+URL запроса;
+IP-адрес клиента;
+время выполнения;
+HTTP-статус ответа;
+возникшие ошибки.
+
+Файлы журналов располагаются по пути:
+
+storage/logs/
+
+Дополнительно логируются ошибки при работе с OpenAI API, что упрощает диагностику и сопровождение приложения.
+
+Rate Limiting
+
+Для защиты от спама реализено ограничение количества запросов.
+
+Используется встроенный механизм Laravel:
+
+Illuminate\Support\Facades\RateLimiter
+
+Ограничение применяется через middleware ContactRateLimit.
+
+При превышении допустимого количества запросов API возвращает HTTP-статус:
+
+429 Too Many Requests
+Обработка ошибок
+
+Проект использует централизованную обработку исключений.
+
+Настроен глобальный обработчик ошибок для API, который возвращает ответы в формате JSON.
+
+Дополнительно реализовано пользовательское исключение:
+
+ContactProcessingException
+
+Это позволяет отделить бизнес-ошибки от системных и возвращать клиенту понятные сообщения.
+
+Валидация и безопасность
+
+Перед выполнением бизнес-логики все входящие данные проходят обязательную серверную валидацию.
+
+Проверяются:
+
+обязательность заполнения полей;
+корректность email;
+формат номера телефона;
+минимальная и максимальная длина строк.
+
+Использование Laravel Validation предотвращает попадание некорректных данных в систему.
+
+CORS
+
+Для корректной работы frontend-приложения настроена политика Cross-Origin Resource Sharing (CORS).
+
+Разрешены обращения к API:
+
+/api/*
+
+а также к Swagger-документации:
+
+/docs
+Мониторинг
+
+Для контроля состояния приложения реализованы дополнительные сервисные эндпоинты.
+
+GET /api/health
+
+Позволяет быстро проверить:
+
+состояние приложения;
+подключение к базе данных;
+почтовый драйвер;
+AI-драйвер;
+версии PHP и Laravel.
+GET /api/metrics
+
+Предоставляет агрегированную статистику работы сервиса:
+
+общее количество обращений;
+обращения за текущий день;
+распределение по категориям;
+анализ тональности сообщений.
+
+Эти эндпоинты могут использоваться для мониторинга работоспособности приложения и интеграции с внешними системами наблюдения.
+
+# Основные переменные окружения
+
+Для конфигурации приложения используются переменные окружения (`.env`), что позволяет безопасно хранить чувствительные данные и изменять настройки без изменения исходного кода.
+
+## Приложение
+
+| Переменная | Назначение |
+|------------|------------|
+| `APP_NAME` | Название приложения |
+| `APP_ENV` | Окружение (`local`, `production`) |
+| `APP_KEY` | Ключ шифрования Laravel |
+| `APP_DEBUG` | Режим отладки |
+| `APP_URL` | Базовый URL приложения |
+
+## База данных
+
+| Переменная | Назначение |
+|------------|------------|
+| `DB_CONNECTION` | Драйвер базы данных |
+| `DB_HOST` | Хост базы данных |
+| `DB_PORT` | Порт базы данных |
+| `DB_DATABASE` | Имя базы данных |
+| `DB_USERNAME` | Пользователь БД |
+| `DB_PASSWORD` | Пароль БД |
+
+## AI
+
+| Переменная | Назначение |
+|------------|------------|
+| `AI_DRIVER` | Используемый AI-провайдер (`fake` или `openai`) |
+| `OPENAI_API_KEY` | API-ключ OpenAI |
+
+## Почта
+
+| Переменная | Назначение |
+|------------|------------|
+| `MAIL_MAILER` | Почтовый драйвер |
+| `MAIL_HOST` | SMTP-сервер |
+| `MAIL_PORT` | SMTP-порт |
+| `MAIL_USERNAME` | SMTP-пользователь |
+| `MAIL_PASSWORD` | SMTP-пароль |
+| `MAIL_ENCRYPTION` | Тип шифрования |
+| `MAIL_FROM_ADDRESS` | Email отправителя |
+| `MAIL_FROM_NAME` | Имя отправителя |
+| `MAIL_ADMIN_ADDRESS` | Email администратора для получения уведомлений |
+
+Использование переменных окружения позволяет безопасно хранить конфиденциальные данные, упрощает перенос проекта между окружениями и соответствует рекомендуемому подходу Laravel.
+
+# Почему были выбраны именно эти технологии и подходы
+
+При разработке проекта основной целью было не только выполнить требования тестового задания, но и показать подход к построению масштабируемого backend-приложения.
+
+## Laravel
+
+В качестве основного фреймворка был выбран Laravel, поскольку он предоставляет готовые инструменты для разработки REST API и позволяет сосредоточиться на архитектуре приложения.
+
+Преимущества выбора:
+
+- встроенная Dependency Injection;
+- удобная система маршрутизации;
+- мощная система валидации;
+- встроенные Mail, Logging и Rate Limiting;
+- поддержка очередей и событий;
+- развитая экосистема и большое сообщество.
+
+---
+
+## MySQL
+
+Для хранения данных была выбрана MySQL.
+
+Причины выбора:
+
+- надежность;
+- высокая производительность;
+- широкое распространение;
+- хорошая интеграция с Laravel Eloquent;
+- возможность дальнейшего масштабирования проекта.
+
+---
+
+## OpenAI API
+
+В качестве AI-провайдера используется OpenAI API.
+
+Это позволило реализовать сразу несколько задач в рамках одного запроса:
+
+- анализ тональности сообщения;
+- классификацию обращения;
+- генерацию автоматического ответа пользователю.
+
+Такой подход уменьшает количество бизнес-логики на стороне приложения и делает систему легко расширяемой.
+
+---
+
+## FakeAIService
+
+Дополнительно реализован сервис FakeAIService.
+
+Он позволяет:
+
+- разрабатывать проект без затрат на OpenAI API;
+- запускать тесты без внешних зависимостей;
+- обеспечить отказоустойчивость приложения.
+
+Переключение между сервисами осуществляется одной переменной окружения (`AI_DRIVER`).
+
+---
+
+## Layered Architecture
+
+В проекте использована слоистая архитектура.
+
+Каждый слой отвечает только за свою область ответственности:
+
+- Controller принимает HTTP-запрос;
+- DTO переносит данные между слоями;
+- Service реализует бизнес-логику;
+- Repository работает с базой данных;
+- AI Service инкапсулирует взаимодействие с AI.
+
+Такое разделение делает код проще для сопровождения, тестирования и дальнейшего расширения.
+
+---
+
+## Repository Pattern
+
+Работа с моделями вынесена в отдельный Repository.
+
+Это позволяет:
+
+- отделить бизнес-логику от работы с базой данных;
+- упростить тестирование;
+- при необходимости заменить источник хранения данных без изменения сервисов.
+
+---
+
+## DTO Pattern
+
+Для передачи данных между слоями используются DTO.
+
+Преимущества такого подхода:
+
+- строгая типизация;
+- единая точка передачи данных;
+- уменьшение связности компонентов;
+- повышение читаемости кода.
+
+---
+
+## Dependency Injection
+
+Все основные зависимости подключаются через интерфейсы и контейнер Laravel.
+
+Такой подход соответствует принципу Dependency Inversion (SOLID) и позволяет легко заменять реализации сервисов, например переключаться между OpenAIService и FakeAIService без изменения бизнес-логики приложения.
+
+---
+
+## Graceful Fallback
+
+Для AI-интеграции реализован механизм Graceful Fallback.
+
+Если внешний AI-сервис недоступен, приложение автоматически использует резервную реализацию, сохраняя работоспособность API и не прерывая пользовательский сценарий.
+
+---
+
+## Почему именно такой подход
+
+Основной акцент был сделан на:
+
+- читаемости кода;
+- разделении ответственности между компонентами;
+- масштабируемости архитектуры;
+- удобстве тестирования;
+- возможности дальнейшего развития проекта без значительных изменений существующего кода.
+
+Именно поэтому были использованы интерфейсы, сервисный слой, DTO, Repository Pattern и централизованная обработка ошибок.

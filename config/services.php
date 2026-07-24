@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'ai' => [
+        'driver' => env('AI_DRIVER', 'fake'),
+        'model' => env('OPENAI_MODEL', 'gpt-4.1-mini'),
+    ],
+
 ];

@@ -1,0 +1,218 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Lending Presento API",
+        "description": "Backend API для формы обратной связи с AI-интеграцией.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Local Development"
+        }
+    ],
+    "paths": {
+        "/api/contact": {
+            "post": {
+                "tags": [
+                    "Contact Form"
+                ],
+                "summary": "Отправка формы обратной связи",
+                "description": "Принимает данные формы обратной связи, выполняет AI-анализ, сохраняет обращение и отправляет email-уведомления.",
+                "operationId": "createContact",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "phone",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Иван Иванов"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "ivan@example.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+79991234567"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Здравствуйте! Хотел бы заказать разработку сайта."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Обращение успешно создано",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ваше обращение успешно отправлено."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string",
+                                                    "example": "019f9007-cbe3-7177-8773-73d19a1e86ac"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    },
+                    "429": {
+                        "description": "Превышен лимит запросов"
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/health": {
+            "get": {
+                "tags": [
+                    "Monitoring"
+                ],
+                "summary": "Проверка состояния API",
+                "description": "Используется для мониторинга доступности сервиса.",
+                "operationId": "healthCheck",
+                "responses": {
+                    "200": {
+                        "description": "API доступен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        },
+                                        "service": {
+                                            "type": "string",
+                                            "example": "Lending Presento API"
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2026-07-23T18:40:00+00:00"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/metrics": {
+            "get": {
+                "tags": [
+                    "Monitoring"
+                ],
+                "summary": "Статистика обращений",
+                "description": "Возвращает агрегированную статистику по обращениям.",
+                "operationId": "metrics",
+                "responses": {
+                    "200": {
+                        "description": "Статистика успешно получена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "total_contacts": {
+                                                    "type": "integer",
+                                                    "example": 120
+                                                },
+                                                "today_contacts": {
+                                                    "type": "integer",
+                                                    "example": 8
+                                                },
+                                                "positive": {
+                                                    "type": "integer",
+                                                    "example": 70
+                                                },
+                                                "neutral": {
+                                                    "type": "integer",
+                                                    "example": 35
+                                                },
+                                                "negative": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "categories": {
+                                                    "type": "object",
+                                                    "example": {
+                                                        "question": 55,
+                                                        "order": 30,
+                                                        "complaint": 12,
+                                                        "other": 23
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Monitoring",
+            "description": "Системные эндпоинты"
+        },
+        {
+            "name": "Contact Form",
+            "description": "Форма отправки"
+        }
+    ]
+}

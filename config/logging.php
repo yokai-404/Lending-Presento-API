@@ -129,4 +129,10 @@ return [
 
     ],
 
+    'ai' => [
+    'driver' => 'single',
+    'path' => storage_path('logs/ai.log'),
+    'level' => env('LOG_LEVEL', 'debug'),
+],
+
 ];

@@ -1,0 +1,436 @@
+{
+  "info": {
+    "_postman_id": "f00646d4-3985-4920-8c7a-4d4ea845ea83",
+    "name": "Lending Presento API",
+    "description": "Коллекция для тестирования REST API проекта Lending Presento.\n\nВключает основные сценарии работы сервиса:\n\n• Проверка состояния сервиса\n• Получение статистики обращений\n• Отправка формы обратной связи\n• Проверка обработки ошибок валидации\n\nВсе запросы используют переменную окружения {{base_url}}.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45065284",
+    "_collection_link": "https://go.postman.co/collection/45065284-f00646d4-3985-4920-8c7a-4d4ea845ea83?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "/api/health",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Иван Иванов\",\n    \"email\": \"ivan@test.ru\",\n    \"phone\": \"+79991234567\",\n    \"message\": \"Здравствуйте! Хотел бы заказать разработку сайта.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "/api/health",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Иван Иванов\",\n    \"email\": \"ivan@test.ru\",\n    \"phone\": \"+79991234567\",\n    \"message\": \"Здравствуйте! Хотел бы заказать разработку сайта.\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/health",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.4.5"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 24 Jul 2026 02:59:58 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"status\": \"ok\",\n    \"service\": {\n        \"name\": \"Lending Presento API\",\n        \"version\": \"1.0.0\"\n    },\n    \"services\": {\n        \"database\": {\n            \"status\": \"ok\",\n            \"driver\": \"mysql\"\n        },\n        \"mail\": {\n            \"status\": \"ok\",\n            \"driver\": \"smtp\"\n        },\n        \"ai\": {\n            \"status\": \"ok\",\n            \"driver\": \"fake\",\n            \"model\": \"gpt-4.1-mini\"\n        }\n    },\n    \"environment\": {\n        \"app\": \"local\",\n        \"php\": \"8.4.5\",\n        \"laravel\": \"13.21.1\"\n    },\n    \"timestamp\": \"2026-07-24T05:59:58+03:00\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Проверка доступности API и состояния основных сервисов.\n\nВозвращает информацию о:\n\n• статусе приложения\n• подключении к базе данных\n• почтовом драйвере\n• AI-драйвере\n• версии PHP\n• версии Laravel\n• окружении приложения"
+    },
+    {
+      "name": "Metrics",
+      "item": [
+        {
+          "name": "/api/metrics",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/metrics",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "metrics"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "/api/metrics",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/metrics",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "metrics"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.4.5"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 24 Jul 2026 03:00:10 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"data\": {\n        \"total_contacts\": 21,\n        \"today_contacts\": 1,\n        \"positive\": 1,\n        \"neutral\": 6,\n        \"negative\": 3,\n        \"categories\": {\n            \"other\": 17,\n            \"sales\": 1,\n            \"support\": 3\n        }\n    }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Получение статистики обращений.\n\nЭндпоинт предназначен для мониторинга работы сервиса и отображает:\n\n• общее количество обращений\n• количество обращений за сегодня\n• распределение по категориям\n• анализ тональности сообщений"
+    },
+    {
+      "name": "Contact",
+      "item": [
+        {
+          "name": "/api/contact",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Successful POST request\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Иван Иванов\",\n    \"email\": \"ivan@test.ru\",\n    \"phone\": \"+79991234567\",\n    \"message\": \"Здравствуйте! Хочу заказать сайт.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/contact",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "contact"
+              ]
+            }
+            },
+          "response": [
+            {
+              "name": "/api/contact",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Иван Иванов\",\n    \"email\": \"ivan@test.ru\",\n    \"phone\": \"+79991234567\",\n    \"message\": \"Здравствуйте! Хочу заказать сайт.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/contact",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "contact"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.4.5"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 24 Jul 2026 03:01:13 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Ваше обращение успешно отправлено.\",\n    \"data\": {\n        \"uuid\": \"019f9211-cec0-73f3-b1ff-d3d47f57a13e\",\n        \"created_at\": \"2026-07-24T03:01:08.000000Z\"\n    }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Создание нового обращения через форму обратной связи.\n\nПоследовательность обработки:\n\n1. Валидация входных данных\n2. AI-анализ сообщения\n3. Сохранение обращения в базе данных\n4. Отправка уведомления владельцу сайта\n5. Отправка подтверждения пользователю\n6. Возврат JSON-ответа"
+    },
+    {
+      "name": "Validation Error",
+      "item": [
+        {
+          "name": "/api/contact",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Successful POST request\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"32131\",\n    \"email\": \"ffdfsdfdweew\",\n    \"phone\": \"12\",\n    \"message\": \"Hi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/contact",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "contact"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "/api/contact",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"32131\",\n    \"email\": \"ffdfsdfdweew\",\n    \"phone\": \"12\",\n    \"message\": \"Hi\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/contact",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "contact"
+                  ]
+                }
+              },
+              "status": "Unprocessable Content",
+              "code": 422,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.4.5"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 24 Jul 2026 03:02:22 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Введите корректный email. (and 2 more errors)\",\n    \"errors\": {\n        \"email\": [\n            \"Введите корректный email.\"\n        ],\n        \"phone\": [\n            \"Телефон слишком короткий.\"\n        ],\n        \"message\": [\n            \"Комментарий должен содержать минимум 10 символов.\"\n        ]\n    }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Проверка обработки некорректных данных.\n\nИспользуются заведомо неверные значения для проверки:\n\n• правил валидации  \n• структуры ответа API  \n• HTTP-статуса 422"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
