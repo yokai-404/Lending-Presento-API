@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Feature;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -26,8 +28,8 @@ class ContactApiTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('contacts', [
-            'email' => 'ivan@test.ru',
             'name' => 'Иван Иванов',
+            'email' => 'ivan@test.ru',
         ]);
     }
 }
