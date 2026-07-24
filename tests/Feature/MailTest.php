@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Mail\AdminContactMail;
-use App\Mail\UserContactMail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;

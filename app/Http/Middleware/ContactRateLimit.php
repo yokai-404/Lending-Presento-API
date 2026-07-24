@@ -14,13 +14,11 @@ class ContactRateLimit
         $key = 'contact:'.$request->ip();
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
-
             return response()->json([
                 'success' => false,
                 'message' => 'Слишком много запросов. Попробуйте позже.',
                 'retry_after' => RateLimiter::availableIn($key),
             ], 429);
-
         }
 
         RateLimiter::hit($key, 60);

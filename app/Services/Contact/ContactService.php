@@ -15,7 +15,8 @@ class ContactService
         private readonly ContactRepositoryInterface $repository,
         private readonly AIServiceInterface $aiService,
         private readonly MailService $mailService,
-    ) {}
+    ) {
+    }
 
     public function create(ContactDTO $dto): Contact
     {
@@ -32,9 +33,7 @@ class ContactService
             $this->mailService->sendToUser($contact);
 
             return $contact;
-
         } catch (\Throwable $e) {
-
             report($e);
 
             throw new ContactProcessingException(

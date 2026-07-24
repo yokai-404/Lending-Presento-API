@@ -11,7 +11,8 @@ readonly class ContactDTO
         public string $message,
         public string $ipAddress,
         public string $userAgent,
-    ) {}
+    ) {
+    }
 
     public static function fromArray(array $data): self
     {

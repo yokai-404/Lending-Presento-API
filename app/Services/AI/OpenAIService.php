@@ -93,18 +93,15 @@ class OpenAIService implements AIServiceInterface
                 'ai_reply' => $data['reply'] ?? '',
             ];
         } catch (Throwable $e) {
-
             Log::error('OpenAI Error', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
-            
-            return [
 
+            return [
                 'sentiment' => 'neutral',
                 'category' => 'other',
                 'ai_reply' => 'Спасибо за обращение! Мы свяжемся с вами в ближайшее время.',
-                
             ];
         }
     }

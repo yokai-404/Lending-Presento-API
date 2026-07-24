@@ -22,8 +22,8 @@ class AppServiceProvider extends ServiceProvider
             AIServiceInterface::class,
             function () {
                 return match (config('services.ai.driver')) {
-                    'openai' => new OpenAIService,
-                    default => new FallbackAIService,
+                    'openai' => new OpenAIService(),
+                    default => new FallbackAIService(),
                 };
             }
         );

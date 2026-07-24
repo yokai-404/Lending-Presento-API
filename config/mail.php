@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'admin_address' => env('ADMIN_EMAIL'),
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +36,6 @@ return [
     */
 
     'mailers' => [
-
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),
@@ -97,7 +95,6 @@ return [
             ],
             'retry_after' => 60,
         ],
-
     ],
 
     /*
@@ -115,5 +112,4 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
-
 ];

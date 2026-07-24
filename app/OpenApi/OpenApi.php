@@ -22,4 +22,6 @@ use OpenApi\Attributes as OA;
     name: 'Monitoring',
     description: 'Системные эндпоинты'
 )]
-class OpenApi {}
+class OpenApi
+{
+}

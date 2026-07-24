@@ -11,11 +11,13 @@ use Illuminate\Queue\SerializesModels;
 
 class ContactUserMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(
         public Contact $contact,
-    ) {}
+    ) {
+    }
 
     public function envelope(): Envelope
     {
