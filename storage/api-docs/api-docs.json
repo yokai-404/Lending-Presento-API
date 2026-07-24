@@ -18,9 +18,10 @@
                     "Contact Form"
                 ],
                 "summary": "Отправка формы обратной связи",
-                "description": "Принимает данные формы обратной связи, выполняет AI-анализ, сохраняет обращение и отправляет email-уведомления.",
+                "description": "Принимает данные формы, выполняет валидацию, AI-анализ комментария, сохраняет обращение и отправляет email уведомления.",
                 "operationId": "createContact",
                 "requestBody": {
+                    "description": "Данные формы обратной связи",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -33,21 +34,26 @@
                                 ],
                                 "properties": {
                                     "name": {
+                                        "description": "Имя клиента",
                                         "type": "string",
                                         "example": "Иван Иванов"
                                     },
                                     "email": {
+                                        "description": "Email клиента",
                                         "type": "string",
                                         "format": "email",
                                         "example": "ivan@example.com"
                                     },
                                     "phone": {
+                                        "description": "Телефон клиента",
                                         "type": "string",
                                         "example": "+79991234567"
                                     },
                                     "message": {
+                                        "description": "Комментарий клиента",
                                         "type": "string",
-                                        "example": "Здравствуйте! Хотел бы заказать разработку сайта."
+                                        "example": "Здравствуйте! Хотел бы заказать разработку сайта.",
+                                        "minLength": 10
                                     }
                                 },
                                 "type": "object"
@@ -78,7 +84,26 @@
                                                 },
                                                 "created_at": {
                                                     "type": "string",
-                                                    "format": "date-time"
+                                                    "format": "date-time",
+                                                    "example": "2026-07-24T05:59:58+03:00"
+                                                },
+                                                "ai_analysis": {
+                                                    "description": "Результат AI анализа обращения",
+                                                    "properties": {
+                                                        "sentiment": {
+                                                            "type": "string",
+                                                            "example": "positive"
+                                                        },
+                                                        "category": {
+                                                            "type": "string",
+                                                            "example": "development"
+                                                        },
+                                                        "priority": {
+                                                            "type": "string",
+                                                            "example": "high"
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -90,13 +115,54 @@
                         }
                     },
                     "422": {
-                        "description": "Ошибка валидации"
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Введите корректный email."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "email": [
+                                                    "Введите корректный email."
+                                                ],
+                                                "phone": [
+                                                    "Телефон слишком короткий."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "429": {
-                        "description": "Превышен лимит запросов"
+                        "description": "Превышен лимит запросов",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Too Many Requests"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Внутренняя ошибка сервера"
+                        "description": "Внутренняя ошибка сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": false,
+                                    "message": "Произошла внутренняя ошибка сервера."
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -104,14 +170,14 @@
         "/api/health": {
             "get": {
                 "tags": [
-                    "Monitoring"
+                    "Health"
                 ],
-                "summary": "Проверка состояния API",
-                "description": "Используется для мониторинга доступности сервиса.",
+                "summary": "Проверка состояния сервиса",
+                "description": "Возвращает статус приложения, базы данных, почты, AI-сервиса и версии окружения.",
                 "operationId": "healthCheck",
                 "responses": {
                     "200": {
-                        "description": "API доступен",
+                        "description": "Сервис работает",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -125,19 +191,36 @@
                                             "example": "ok"
                                         },
                                         "service": {
-                                            "type": "string",
-                                            "example": "Lending Presento API"
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Lending Presento API"
+                                                },
+                                                "version": {
+                                                    "type": "string",
+                                                    "example": "1.0.0"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "services": {
+                                            "type": "object"
+                                        },
+                                        "environment": {
+                                            "type": "object"
                                         },
                                         "timestamp": {
                                             "type": "string",
-                                            "format": "date-time",
-                                            "example": "2026-07-23T18:40:00+00:00"
+                                            "format": "date-time"
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Ошибка проверки состояния сервиса"
                     }
                 }
             }
@@ -147,8 +230,8 @@
                 "tags": [
                     "Monitoring"
                 ],
-                "summary": "Статистика обращений",
-                "description": "Возвращает агрегированную статистику по обращениям.",
+                "summary": "Получение статистики обращений",
+                "description": "Возвращает агрегированную статистику по обращениям пользователей, включая количество обращений и AI-анализ сообщений.",
                 "operationId": "metrics",
                 "responses": {
                     "200": {
@@ -164,26 +247,32 @@
                                         "data": {
                                             "properties": {
                                                 "total_contacts": {
+                                                    "description": "Общее количество обращений",
                                                     "type": "integer",
                                                     "example": 120
                                                 },
                                                 "today_contacts": {
+                                                    "description": "Количество обращений за текущий день",
                                                     "type": "integer",
                                                     "example": 8
                                                 },
                                                 "positive": {
+                                                    "description": "Количество позитивных сообщений",
                                                     "type": "integer",
                                                     "example": 70
                                                 },
                                                 "neutral": {
+                                                    "description": "Количество нейтральных сообщений",
                                                     "type": "integer",
                                                     "example": 35
                                                 },
                                                 "negative": {
+                                                    "description": "Количество негативных сообщений",
                                                     "type": "integer",
                                                     "example": 15
                                                 },
                                                 "categories": {
+                                                    "description": "Распределение обращений по категориям",
                                                     "type": "object",
                                                     "example": {
                                                         "question": 55,
@@ -200,6 +289,18 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Ошибка получения статистики",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": false,
+                                    "message": "Не удалось получить статистику обращений."
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -207,12 +308,16 @@
     },
     "tags": [
         {
-            "name": "Monitoring",
-            "description": "Системные эндпоинты"
+            "name": "Contact Form",
+            "description": "API для отправки формы обратной связи с AI-анализом и email уведомлениями"
         },
         {
-            "name": "Contact Form",
-            "description": "Форма отправки"
+            "name": "Health",
+            "description": "Проверка состояния API и зависимых сервисов"
+        },
+        {
+            "name": "Monitoring",
+            "description": "Системные эндпоинты"
         }
     ]
 }
